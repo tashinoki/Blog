@@ -3,7 +3,7 @@ title: "Log Ingest API を使って Log Analytics のカスタムテーブルへ
 emoji: "💭"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["azure", "loganalytics"]
-published: false
+published: true
 ---
 
 # Azure Monitor
@@ -85,7 +85,8 @@ Log Analytics 上では、ログやトレースを記録するためのテーブ
 ドキュメントには
 > Each workspace has its own data repository and configuration but might combine data from multiple services
 
-という記述があり、別 workspace からクエリすることも可能なんじゃないかと思ってきた。
+~~という記述があり、別 workspace からクエリすることも可能なんじゃないかと思ってきた。~~
+この記事は別ブログで公開していた時には上記記述があったが、今読み返すと消えていました。
 
 参考: https://learn.microsoft.com/en-us/azure/azure-monitor/logs/log-analytics-workspace-overview
 
