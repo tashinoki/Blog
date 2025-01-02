@@ -25,7 +25,7 @@ Azure Monitor とは、クラウド環境とオンプレミス環境からの監
 
 
 
-参考: [https://learn.microsoft.com/en-us/azure/azure-monitor/overview:title]
+参考: https://learn.microsoft.com/en-us/azure/azure-monitor/overview
 
 
 
@@ -52,7 +52,7 @@ Azure Monitor Logs とは、Azure Monitor におけるデータストレージ�
 
 Azure Monitor のうち、Log Analytics で分析できるのは Azure Monitor Logs に記録されるのはログとトレースのようです。
 
-参考: [https://learn.microsoft.com/en-us/azure/azure-monitor/overview#data-platform:title]
+参考: https://learn.microsoft.com/en-us/azure/azure-monitor/overview#data-platform
 
 ログの種類には
 
@@ -65,7 +65,7 @@ Azure Monitor のうち、Log Analytics で分析できるのは Azure Monitor L
 
 それぞれのプランの詳細は参考記事に書いてあります。私の場合は、「ミドルウェアの可観測性を上げ、運用改善のためのインサイトを得たい」という目的があるため、比較的長期間の保持が求められました。そのため Analytics プランを選択しています。
 
-参考: [https://learn.microsoft.com/en-us/azure/azure-monitor/logs/basic-logs-configure?tabs=portal-1#compare-the-basic-and-analytics-log-data-plans:title]
+参考: https://learn.microsoft.com/en-us/azure/azure-monitor/logs/basic-logs-configure?tabs=portal-1#compare-the-basic-and-analytics-log-data-plans
 
 ## Log Analytics について
 
@@ -79,7 +79,7 @@ Log Analytics 上では、ログやトレースを記録するためのテーブ
 
 テーブル単位でデータの保持期間を指定できますし、カラム定義も行えます。カスタムテーブルのサフィックスには「**_CL**」を付けなければいけません。
 
-参考: [https://learn.microsoft.com/en-us/azure/azure-monitor/logs/log-analytics-overview:title]
+参考: https://learn.microsoft.com/en-us/azure/azure-monitor/logs/log-analytics-overview
 
 
 ドキュメントには
@@ -87,12 +87,12 @@ Log Analytics 上では、ログやトレースを記録するためのテーブ
 
 という記述があり、別 workspace からクエリすることも可能なんじゃないかと思ってきた。
 
-参考: [https://learn.microsoft.com/en-us/azure/azure-monitor/logs/log-analytics-workspace-overview:title]
+参考: https://learn.microsoft.com/en-us/azure/azure-monitor/logs/log-analytics-workspace-overview
 
 # Log Analytics のカスタムテーブルへログを書き込む方法
 事前知識の整理がようやく終わりました。実際に書き込むのはここから先で行います。
 
-参考記事: [https://learn.microsoft.com/en-us/azure/azure-monitor/logs/tutorial-logs-ingestion-portal:title]
+参考記事: https://learn.microsoft.com/en-us/azure/azure-monitor/logs/tutorial-logs-ingestion-portal
 
 ## データコレクションについて
 
@@ -104,7 +104,7 @@ Log Analytics 上では、ログやトレースを記録するためのテーブ
 
 この新しい方法の中に DCE, DCR という概念があります。
 
-参考: [https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/data-collection:title]
+参考: https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/data-collection
 
 ### DCE (Data Collection Endpoint)
 
@@ -129,7 +129,7 @@ Data Ingestion はリージョンを跨いでも使えます。例えば、東�
 
 正式なものとしてリリースされているのは Log Analytics に対する DCE だけのようですね。Metrics を送信するための DCE はまだ preview のようです。
 
-参考: [https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/data-collection-endpoint-overview?tabs=portal:title]
+参考: https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/data-collection-endpoint-overview?tabs=portal
 
 ### DCR (Data Collection Rule)
 
@@ -139,7 +139,7 @@ DCR はではデータがどのように・どこに取り込まれるのかを�
 
 DCR 単位での認証も出来ます。
 
-参考: [https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/data-collection#data-collection-rules:title]
+参考: https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/data-collection#data-collection-rules
 
 
 
@@ -160,17 +160,17 @@ API を使ってカスタムテーブルに書き込む方法には以下の 2 �
 - DCR の認証情報
 - 書き込み先のテーブル名
 
-参考: [https://learn.microsoft.com/en-us/azure/azure-monitor/logs/logs-ingestion-api-overview:title]
+参考: https://learn.microsoft.com/en-us/azure/azure-monitor/logs/logs-ingestion-api-overview
 
 Data Collector API からの移行ガイドもあるので、まだ実施できていなければぜひ目を通してください。
 
-参考: [https://learn.microsoft.com/en-us/azure/azure-monitor/logs/data-collector-api?tabs=powershell:title]
+参考: https://learn.microsoft.com/en-us/azure/azure-monitor/logs/data-collector-api?tabs=powershell
 
 ### Data Collection API
 
 非推奨のためリンクだけ貼っておきます。
 
-参考: [https://learn.microsoft.com/en-us/azure/azure-monitor/logs/data-collector-api?tabs=powershell:title]
+参考: https://learn.microsoft.com/en-us/azure/azure-monitor/logs/data-collector-api?tabs=powershell
 
 
 ## Azure Function から Log Ingest API を使って書き込みを行う
