@@ -1,8 +1,11 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
+using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 
 namespace KinoToyBoxFunctions;
@@ -60,6 +63,20 @@ public class DurableRetryTest
         // ....
 
         return Task.CompletedTask;
+    }
+
+    [FunctionName(nameof(TestInstanceRestart))]
+    public async Task<IActionResult> TestInstanceRestart(
+        [HttpTrigger(AuthorizationLevel.Function, "post", Route = "{instanceId}")]
+        HttpRequest req,
+        string instanceId,
+        [DurableClient] IDurableOrchestrationClient durableClient,
+        ILogger log,
+        CancellationToken cancellationToken)
+    {
+        var status = await durableClient.GetStatusAsync(instanceId);
+
+        return new OkResult();
     }
 }
 
