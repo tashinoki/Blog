@@ -99,5 +99,19 @@ public class DurableRetryTest
 
         return new OkResult();
     }
+
+    [FunctionName(nameof(TestInstanceRewind))]
+    public async Task<IActionResult> TestInstanceRewind(
+        [HttpTrigger(AuthorizationLevel.Function, "post", Route = "{instanceId}/_rewind")]
+        HttpRequest req,
+        string instanceId,
+        [DurableClient] IDurableOrchestrationClient durableClient,
+        ILogger log,
+        CancellationToken cancellationToken)
+    {
+        await durableClient.RewindAsync(instanceId, "test retry");
+
+        return new OkResult();
+    }
 }
 
