@@ -85,6 +85,18 @@ public class DurableRetryTest
     {
         var status = await durableClient.GetStatusAsync(instanceId);
 
+        if (status == null)
+        {
+            throw new InvalidOperationException();
+        }
+
+        if (status.RuntimeStatus != OrchestrationRuntimeStatus.Failed)
+        {
+            throw new InvalidOperationException();
+        }
+
+        await durableClient.RestartAsync(instanceId, true);
+
         return new OkResult();
     }
 }
