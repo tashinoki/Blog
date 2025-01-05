@@ -12,6 +12,12 @@ namespace KinoToyBoxFunctions;
 
 public class DurableRetryTest
 {
+
+    private record DurableRetryTestParameter
+    {
+        public string Id { get; set; }
+    }
+
     [FunctionName(nameof(TestOrchestratorStartAsync))]
     public async Task TestOrchestratorStartAsync(
         [ServiceBusTrigger("durable-retry-test")] string myQueueItem,
@@ -19,7 +25,7 @@ public class DurableRetryTest
         ILogger log,
         CancellationToken cancellationToken)
     {
-        await orchestrationClient.StartNewAsync(nameof(TestOrchestrator));
+        await orchestrationClient.StartNewAsync(nameof(TestOrchestrator), new DurableRetryTestParameter { Id = myQueueItem});
     }
 
     [FunctionName(nameof(TestOrchestrator))]
@@ -28,6 +34,9 @@ public class DurableRetryTest
         ILogger log,
         CancellationToken cancellationToken)
     {
+        var input = orchestrationContext.GetInput<DurableRetryTestParameter>();
+
+        throw new Exception("Application Exception");
         // サブオーケストレータの呼び出し
         await orchestrationContext.CallSubOrchestratorWithRetryAsync(nameof(TestSubOrchestrator), new RetryOptions(TimeSpan.FromSeconds(1), 5)
         {
