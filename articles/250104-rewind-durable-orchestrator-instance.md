@@ -9,7 +9,7 @@ published: false
 ## これは何
 Durable Function で、Activity や SubOrchestrator で例外が発生した時に、うまい具合に再試行する方法が SDK でいくつか用意されています。そういった事を紹介してくださっている記事もいくつかあります。
 
-しかし、Orchestrator インスタンスが失敗した時、同じ InstanceId を使って再試行するにはどうすればよいのかよくわからなかったので考えをまとめておきます。
+しかし、Orchestrator インスタンスが失敗した時、そのインスタンスを再試行するにはどうすればよいのかよくわからなかったので考えをまとめておきます。
 
 ※サンプルコードはインプロセスモデルを前提にしています。
 
@@ -118,3 +118,48 @@ https://github.com/Azure/durabletask/blob/93b2dde58366da95165fe8c8512b577c846288
 となります。
 
 ## Rewind を使う
+`IDurableOrchestrationClient` にはもう一つ `RewindAsync` というものも用意されています。
+
+https://learn.microsoft.com/en-us/dotnet/api/microsoft.azure.webjobs.extensions.durabletask.idurableorchestrationclient.rewindasync?view=azure-dotnet
+
+ただしこちらは 2025/1/6 時点ではプレビューとなっています。
+
+こちらで提案されているようですね。
+
+https://github.com/Azure/durabletask/issues/731
+
+同じく `Http Trigger` を使って `RewindAsync` を呼び出してみます。方針は同じように方針は同じように InstanceId を使うようにしています。
+
+```cs
+[FunctionName(nameof(TestInstanceRewind))]
+public async Task<IActionResult> TestInstanceRewind(
+    [HttpTrigger(AuthorizationLevel.Function, "post", Route = "{instanceId}")]
+    HttpRequest req,
+    string instanceId,
+    [DurableClient] IDurableOrchestrationClient durableClient,
+    ILogger log,
+    CancellationToken cancellationToken)
+{
+    await durableClient.RewindAsync(instanceId, "test retry");
+
+    return new OkResult();
+}
+```
+
+単純ですね。`RestartAsync` と違う点は 2 つあって、
+
+- パラメータに `reason` を渡せる
+- 対象インスタンスの `Status` をチェックしない
+
+です。
+
+`reason` は `GenericEvent` に使われ、
+https://github.com/Azure/durabletask/blob/93b2dde58366da95165fe8c8512b577c84628813/src/DurableTask.AzureStorage/AzureStorageOrchestrationService.cs#L1931-L1936
+
+また、`RewindAsync` は対象インスタンスが `Failed` でない場合例外を吐きます。
+
+https://github.com/Azure/azure-functions-durable-extension/blob/4714ad1b0f4534a28d37a6871847543b8d43abc8/src/WebJobs.Extensions.DurableTask/ContextImplementations/DurableClient.cs#L454-L457
+
+ちなみに `RewindAsync` ですが、分離ワーカーモデルではまだ実装されていないようです。
+
+https://learn.microsoft.com/en-us/answers/questions/2085399/how-to-rewind-failed-orchestration-instance-of-dur
