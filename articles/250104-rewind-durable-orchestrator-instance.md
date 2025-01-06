@@ -1,5 +1,5 @@
 ---
-title: ""
+title: "Durable Function で失敗したインスタンスを再実行する"
 emoji: "😊"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: []
