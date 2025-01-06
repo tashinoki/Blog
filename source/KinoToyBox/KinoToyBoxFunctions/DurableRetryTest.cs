@@ -95,7 +95,8 @@ public class DurableRetryTest
             throw new InvalidOperationException();
         }
 
-        await durableClient.RestartAsync(instanceId, true);
+        //await durableClient.RestartAsync(instanceId, true)
+        await durableClient.RestartAsync(instanceId, false);
 
         return new OkResult();
     }
