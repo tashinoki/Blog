@@ -3,7 +3,7 @@ title: "GolangのArray/Slice/Set"
 emoji: "🌟"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["go"]
-published: false
+published: true
 ---
 
 自分の学び用のメモです。
